@@ -35,15 +35,14 @@ data class Song(
      * Este va ser nuestro identificador único de la canción.
      * Nos va a servir para saber si se presiono la cancion y ccomparar canciones
      */
-    val id: Int,
+    val id: String,
     /**
      * titulo del nombre de la canción que se mostrará en la UI.
      */
     val title: String,
 
     /**
-     * artist
-     * ------
+     * artista
      * Nombre del artista o banda.
      */
     val artist: String,
