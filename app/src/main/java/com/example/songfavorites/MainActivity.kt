@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/**
+/*
  * MainAppNavigation
  * Este componente maneja la lógica de cambio de pantallas (Home <-> Highlights)
  */

@@ -1,51 +1,55 @@
 package com.example.songfavorites.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.songfavorites.ui.components.SongCard
 import com.example.songfavorites.ui.viewmodel.HomeViewModel
 
 /**
- * HighlightsScreen (Parte 2)
- * Esta pantalla muestra SOLO las canciones marcadas como favoritas.
+ * HighlightsScreen (Versión Mejorada UI)
+ * Muestra las canciones favoritas con estilo Material 3.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HighlightsScreen(viewModel: HomeViewModel) {
 
-    // 1. Observamos la lista completa del ViewModel
-    // Usamos 'by' para acceder al valor directamente
+    // 1. Observamos y Filtramos (Lógica intacta)
     val allSongs by viewModel.songs
-
-    // 2. FILTRADO: Creamos una sub-lista solo con las favoritas (isFavorite == true)
     val favoriteSongs = allSongs.filter { it.isFavorite }
 
     Scaffold(
+        // Barra superior centrada y con color, consistente con Home
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
-                    Text("Highlights ⭐", fontWeight = FontWeight.Bold)
-                }
+                    Text(
+                        "Highlights ⭐",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
 
-        // 3. Manejo de estado vacío: Si no hay favoritas, mostramos un mensaje.
+        // 2. Manejo de estado vacío
         if (favoriteSongs.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -53,25 +57,27 @@ fun HighlightsScreen(viewModel: HomeViewModel) {
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
+                // Texto de estado vacío más elegante
                 Text(
-                    text = "Aún no tienes favoritos",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium
+                    text = "No tienes favoritos aún \n¡Ve a Home y agrega algunos!",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
             }
         } else {
-            // 4. Si hay favoritas, las mostramos en la lista
+            // 3. Lista con espaciado
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-                contentPadding = PaddingValues(bottom = 16.dp)
+                // Espaciado externo e interno para que respire el diseño
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(favoriteSongs) { song ->
                     SongCard(
                         song = song,
-                        // Reutilizamos la misma lógica del ViewModel.
-                        // Al dar click aquí, se quita de favoritos y desaparece de esta lista automáticamente.
                         onFavoriteClick = { id ->
                             viewModel.toggleFavorite(id)
                         }

@@ -26,14 +26,14 @@ class HomeViewModel : ViewModel() {
             // Creamos canciones de ejemplo (datos estáticos)
             Song(
                 id = "1",
-                title = "Instant Crush ",
-                artist = "Daft Punk",
+                title = "Oasis for my soul",
+                artist = "String & Heart",
                 isFavorite = false
             ),
             Song(
                 id = "2",
-                title = "Stars",
-                artist = "Shaya Zamora",
+                title = "Able",
+                artist = "Kirk Franklin",
                 isFavorite = false
             ),
             Song(
@@ -41,7 +41,32 @@ class HomeViewModel : ViewModel() {
                 title = "LOVER",
                 artist = "Sondae",
                 isFavorite = false
+            ),
+            Song(
+                id = "4",
+                title = "Wanna be like you",
+                artist = "One Common",
+                isFavorite = false
+            ),
+            Song(
+                id = "5",
+                title = "ily anyway",
+                artist = "String & Heart",
+                isFavorite = false
+            ),
+            Song(
+                id = "6",
+                title = "For you",
+                artist = "Michael W. Smith",
+                isFavorite = false
+            ),
+            Song(
+                id = "7",
+                title = "Looking for you",
+                artist = "Kirk Franklin",
+                isFavorite = false
             )
+
         )
     )
 

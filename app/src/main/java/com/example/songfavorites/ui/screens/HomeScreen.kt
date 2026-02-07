@@ -1,5 +1,6 @@
 package com.example.songfavorites.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,44 +16,53 @@ import com.example.songfavorites.ui.components.SongCard
 import com.example.songfavorites.ui.viewmodel.HomeViewModel
 
 /**
- * HomeScreen
- * Esta es la pantalla principal que conecta el ViewModel con la UI.
+ * HomeScreen (Versión Mejorada UI)
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
 
-    // 1. Observamos la lista de canciones desde el ViewModel
-    // Usamos 'by' para acceder directamente al valor de mutableStateOf
+    // 1. Observamos la lista
     val songsList by viewModel.songs
 
     Scaffold(
+        //Usamos CenterAlignedTopAppBar para un look más simétrico
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
-                    Text("StreamUI - My Songs", fontWeight = FontWeight.Bold)
-                }
+                    Text(
+                        "StreamUI 🎵",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface // Color de fondo base
     ) { paddingValues ->
 
-        // 2. Usamos LazyColumn para mostrar una lista eficiente (como un RecyclerView)
+        // 2. LazyColumn con mejor espaciado
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentPadding = PaddingValues(bottom = 16.dp)
+            // Padding externo para que no toque los bordes de la pantalla
+            contentPadding = PaddingValues(16.dp),
+            // Espacio automático entre cada tarjeta
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            // 3. Iteramos sobre la lista de canciones del estado
+            // 3. Iteramos
             items(songsList) { song ->
 
-                // 4. Llamamos a nuestro componente SongCard
+                // 4. Componente Card (La lógica NO cambia, solo el contenedor)
                 SongCard(
                     song = song,
                     onFavoriteClick = { id ->
-                        // EVENTO: Cuando se hace clic, llamamos al ViewModel
-                        // Esto es "Event Hoisting" (el evento sube al ViewModel)
                         viewModel.toggleFavorite(id)
                     }
                 )
